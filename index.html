@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Learned Helplessness</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Creepster&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e8e8;font-family:'Special Elite',cursive;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}
+h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 0 20px #ff000066;text-align:center;padding:1rem;letter-spacing:2px}
+.sub{font-size:.95rem;color:#888;margin-bottom:2rem;text-align:center;font-style:italic}
+#gc{background:#111;border:2px solid #333;border-radius:12px;padding:2rem;max-width:680px;width:92vw;text-align:center;box-shadow:0 0 40px #00000088}
+#st{font-size:1.3rem;line-height:1.7;margin-bottom:2rem;min-height:80px;color:#ddd}
+.choices{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.5rem}
+.cb{background:#1a1a2e;border:2px solid #444;color:#ccc;padding:.75rem 1.2rem;font-family:'Special Elite',cursive;font-size:1rem;border-radius:8px;cursor:pointer;transition:all .2s}
+.cb:hover{background:#2a2a4e;border-color:#cc0000;color:#fff;transform:scale(1.02)}
+#ps{display:none;flex-direction:column;align-items:center;gap:1rem}
+#pt{font-family:'Creepster',cursive;font-size:2rem;color:#cc0000;text-shadow:0 0 12px #ff0000aa}
+#ptxt{font-size:1.05rem;color:#bbb;max-width:500px;line-height:1.6}
+#ss{width:360px;max-width:90vw;animation:sb .5s ease-in-out infinite alternate;filter:drop-shadow(0 0 18px #cc0000aa)}
+@keyframes sb{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-10px) rotate(2deg)}}
+.sp{animation:si .4s cubic-bezier(.3,1.5,.7,1) both}
+@keyframes si{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+#nb{background:#cc0000;border:none;color:#fff;padding:.75rem 2rem;font-family:'Special Elite',cursive;font-size:1.1rem;border-radius:8px;cursor:pointer;margin-top:.5rem;transition:background .2s}
+#nb:hover{background:#ff2222}
+#scorebar{font-size:.9rem;color:#666;margin-top:1rem}
+#gs{display:none;flex-direction:column;align-items:center;gap:1.2rem;text-align:center}
+#gt{font-family:'Creepster',cursive;font-size:3rem;color:#cc0000;text-shadow:0 0 20px red}
+#gm{color:#aaa;font-size:1.1rem;max-width:480px;line-height:1.7}
+#rb{background:#222;border:2px solid #cc0000;color:#cc0000;padding:.75rem 2rem;font-family:'Special Elite',cursive;font-size:1.05rem;border-radius:8px;cursor:pointer;transition:all .2s}
+#rb:hover{background:#cc0000;color:#fff}
+#pr{color:#555;font-size:.85rem;margin-bottom:.5rem}
+</style>
+</head>
+<body>
+<h1>Learned Helplessness</h1>
+<p class="sub">Every choice is wrong. Resistance is futile. The shark awaits.</p>
+<div id="gc">
+<div id="scenario-screen">
+<div id="pr"></div>
+<div id="st"></div>
+<div class="choices" id="cc"></div>
+<div id="scorebar">Scenarios survived: <span id="score">0</span></div>
+</div>
+<div id="ps">
+<div id="pt">WRONG.</div>
+<svg id="ss" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg">
+<rect width="360" height="280" fill="#1a0a0a"/>
+<circle cx="180" cy="60" r="45" fill="#cc000022"/>
+<circle cx="180" cy="58" r="32" fill="#2a1a1a" stroke="#cc0000" stroke-width="1.5"/>
+<circle cx="172" cy="52" r="22" fill="#1a0a0a"/>
+<g transform="translate(170,195)">
+<line x1="0" y1="0" x2="0" y2="28" stroke="#e0c090" stroke-width="2.5"/>
+<circle cx="0" cy="-10" r="9" fill="#e0c090" stroke="#c8a070" stroke-width="1"/>
+<line x1="0" y1="8" x2="-18" y2="-2" stroke="#e0c090" stroke-width="2.5"/>
+<line x1="0" y1="8" x2="18" y2="-2" stroke="#e0c090" stroke-width="2.5"/>
+<line x1="0" y1="28" x2="-10" y2="44" stroke="#e0c090" stroke-width="2.5"/>
+<line x1="0" y1="28" x2="10" y2="44" stroke="#e0c090" stroke-width="2.5"/>
+<circle cx="-3" cy="-12" r="1.5" fill="#333"/>
+<circle cx="3" cy="-12" r="1.5" fill="#333"/>
+<path d="M-4 -5 Q0 -2 4 -5" stroke="#333" stroke-width="1.2" fill="none"/>
+</g>
+<rect x="0" y="240" width="360" height="40" fill="#110800"/>
+<line x1="0" y1="240" x2="360" y2="240" stroke="#333" stroke-width="1.5"/>
+<g transform="translate(160,90)">
+<ellipse cx="0" cy="0" rx="72" ry="28" fill="#6a8a9a"/>
+<ellipse cx="4" cy="6" rx="55" ry="16" fill="#d8e8ec"/>
+<path d="M68 0 Q90 -8 88 0 Q90 8 68 0 Z" fill="#5a7a8a"/>
+<polygon points="72,-5 76,-14 80,-5" fill="white"/>
+<polygon points="78,-5 82,-13 86,-5" fill="white"/>
+<polygon points="65,-6 68,-15 72,-6" fill="white"/>
+<polygon points="72,5 75,13 79,5" fill="#eee"/>
+<polygon points="79,5 82,12 85,5" fill="#eee"/>
+<circle cx="60" cy="-7" r="5" fill="white"/>
+<circle cx="61" cy="-7" r="3" fill="#111"/>
+<circle cx="62" cy="-8" r="1" fill="white"/>
+<path d="M-10,-28 L10,-70 L30,-28 Z" fill="#5a7a8a"/>
+<path d="M-68,-15 L-95,-35 L-80,0 L-95,30 L-68,15 Z" fill="#5a7a8a"/>
+<path d="M10,20 L-5,52 L30,25 Z" fill="#6a8a9a"/>
+<path d="M10,-20 L-5,-50 L30,-22 Z" fill="#6a8a9a"/>
+<path d="M38,-18 Q32,-8 38,2" stroke="#4a6a7a" stroke-width="2" fill="none"/>
+<path d="M44,-20 Q38,-8 44,2" stroke="#4a6a7a" stroke-width="2" fill="none"/>
+<path d="M50,-20 Q44,-8 50,2" stroke="#4a6a7a" stroke-width="2" fill="none"/>
+</g>
+<g class="sp" transform="translate(175,170)">
+<ellipse cx="0" cy="12" rx="22" ry="8" fill="#5c3a1e"/>
+<path d="M-8,12 Q-10,-2 -2,-8 Q4,-14 6,-4 Q12,-18 16,-6 Q20,-14 18,2 Q22,8 14,12 Z" fill="#6b4423"/>
+<path d="M4,-8 Q12,-20 8,-28 Q4,-34 0,-28 Q-4,-22 2,-18 Q8,-14 4,-8 Z" fill="#7a4f2a"/>
+<line x1="-5" y1="-30" x2="-8" y2="-44" stroke="#5c3a1e" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+<line x1="5" y1="-32" x2="8" y2="-48" stroke="#5c3a1e" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+<line x1="14" y1="-26" x2="18" y2="-40" stroke="#5c3a1e" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+<circle cx="-12" cy="-38" r="2.5" fill="#222"/>
+<circle cx="22" cy="-42" r="2" fill="#222"/>
+<circle cx="10" cy="-52" r="2" fill="#222"/>
+<ellipse cx="-18" cy="5" rx="5" ry="3" fill="#5c3a1e" transform="rotate(-20,-18,5)"/>
+<ellipse cx="22" cy="8" rx="4" ry="2.5" fill="#5c3a1e" transform="rotate(15,22,8)"/>
+<ellipse cx="0" cy="22" rx="6" ry="3" fill="#5c3a1e"/>
+</g>
+<text x="248" y="120" font-size="9" fill="#cc000099" font-family="sans-serif">Great White Shark</text>
+</svg>
+<div id="ptxt"></div>
+<button id="nb" onclick="nextS()">Face Your Next Doom</button>
+</div>
+<div id="gs">
+<div id="gt">GAME OVER</div>
+<div id="gm"></div>
+<button id="rb" onclick="restart()">Try Again (You Will Fail)</button>
+</div>
+</div>
+<script>
+const S=[
+{t:"You pass a graveyard at midnight. A fresh grave beckons. Rob it or walk away with dignity?",c:[
+{l:"Rob the grave — easy money!",p:"You robbed a grave. The ghost is furious AND you got caught on a Ring doorbell camera from 400 yards away. The Great White Shark was a pallbearer at that funeral."},
+{l:"Walk away like a decent person",p:"You failed to rob the grave. Inside was a treasure map, the antidote to a rare disease, and your lost car keys. The Great White Shark watched you lose everything."}
+]},
+{t:"A baby is dangling from a third-floor window ledge. You are directly below. What do you do?",c:[
+{l:"Heroically catch the baby!",p:"You caught the baby. It bit you. Hard. Turns out it was a 43-year-old man in a onesie. You are now in legal trouble. The Great White Shark is delighted."},
+{l:"Step aside and call 911",p:"The baby landed perfectly fine on a trampoline you somehow didn't notice. Everyone saw you step aside. The Great White Shark narrated the news segment."}
+]},
+{t:"You're at a restaurant. The waiter recommends the salad for health, or the double bacon cheeseburger.",c:[
+{l:"Order the salad — healthy living!",p:"The salad had 2,400 calories, three species of parasites, and a small unidentified key. Your bloodwork came back 'confusing.' The Great White Shark was the produce supplier."},
+{l:"Order the double bacon cheeseburger",p:"Your doctor called at the exact moment you took your first bite. You are now on six medications and the subject of a documentary. The Great White Shark wrote the foreword."}
+]},
+{t:"An elderly woman needs help crossing the street. You have exactly enough time.",c:[
+{l:"Help her across the street",p:"You helped her across. She was actually trying to go BACK the way she came. She has been crossing and re-crossing this intersection for 11 years and you ruined her streak. The Great White Shark was her official timekeeper."},
+{l:"Mind your own business and keep walking",p:"She crossed fine — she has been doing it since 1963. But someone filmed you ignoring her and the video has 40 million views. The Great White Shark liked and shared it."}
+]},
+{t:"You find a wallet on the ground with $400 in cash and an ID inside.",c:[
+{l:"Return it — it's the right thing to do",p:"The owner reported you to police for 'touching their wallet.' You spent Tuesday in a police station explaining your good deed. The Great White Shark testified against you."},
+{l:"Keep the cash — finder's fee",p:"The cash was marked. It was a sting operation. It was also your own money — you dropped the wallet yourself and had amnesia about it. The Great White Shark set the whole thing up."}
+]},
+{t:"You have been invited to a friend's terrible improv show. It starts in an hour.",c:[
+{l:"Attend and support them enthusiastically",p:"You attended. You were pulled on stage. You became the bit. Your face now appears in every improv school textbook as a cautionary tale. The Great White Shark was in the front row."},
+{l:"Fake being sick and stay home",p:"You skipped it. They recorded it. It was objectively the greatest improv performance in human history. You are known forever as the person who missed it. The Great White Shark performed an encore."}
+]},
+{t:"A large spider is in your home. It is staring directly at you with all of its eyes.",c:[
+{l:"Catch and release it outside — it's a living creature",p:"You released it outside. It came back inside. It brought friends. Entomologists now study your apartment professionally. The Great White Shark is their faculty advisor."},
+{l:"Eliminate the spider with extreme prejudice",p:"It was a protected species. You are now in a national database. The spider's family filed a formal complaint. The Great White Shark notarized every document."}
+]},
+{t:"You have been running for 25 minutes. Your podcast just got to the really good part.",c:[
+{l:"Push through for another 25 minutes — grind mentality",p:"You kept running. A runner's high caused you to quit your job via interpretive dance and sign a lease on a yacht. The Great White Shark was your HR department."},
+{l:"Stop at 25 minutes — rest is important too",p:"A fitness influencer filmed your cool-down stretch for a video titled 'This Is Why You're Like This.' It has 11 million views. The Great White Shark wrote the caption."}
+]},
+{t:"A coworker's birthday. A card is going around the office. You must write something.",c:[
+{l:"Write a heartfelt, genuine message",p:"They read it aloud at the party. You cried. Everyone watched you cry for seven uninterrupted minutes. It ended in a group hug you did not consent to. The Great White Shark catered the event."},
+{l:"Write 'Happy Birthday!' and nothing else",p:"There is now a break room chart ranking card messages. You are at the bottom, directly below 'Best, Steve.' Nobody knows who Steve is. The Great White Shark made the chart."}
+]},
+{t:"A raccoon is raiding your neighbour's trash at 2am. It makes direct, sustained eye contact with you.",c:[
+{l:"Chase it away — neighbourhood watch!",p:"The raccoon did not run. It stood its ground. You blinked first. The raccoon's confidence destroyed you psychologically. You refer to it now only as 'the incident.' The Great White Shark was its life coach."},
+{l:"Respect the raccoon's hustle and go back inside",p:"You did nothing. The raccoon found your spare key (you did not know you had a spare key). It has been living in your attic for three weeks. The Great White Shark is the raccoon's landlord and your rent just went up."}
+]}
+];
+let idx=0,sc=0,sh=[];
+const shuf=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+function restart(){sh=shuf(S);idx=0;sc=0;document.getElementById('score').textContent=0;showS();}
+function showS(){
+['gs','ps'].forEach(id=>{const el=document.getElementById(id);el.style.display='none';});
+document.getElementById('scenario-screen').style.display='block';
+if(idx>=sh.length){gameOver();return;}
+const s=sh[idx];
+document.getElementById('pr').textContent='Scenario '+(idx+1)+' of '+sh.length;
+document.getElementById('st').textContent=s.t;
+const c=document.getElementById('cc');c.innerHTML='';
+shuf(s.c).forEach(ch=>{const b=document.createElement('button');b.className='cb';b.textContent=ch.l;b.onclick=()=>pick(ch.p);c.appendChild(b);});
+}
+function pick(p){
+sc++;document.getElementById('score').textContent=sc;
+document.getElementById('ptxt').textContent=p;
+document.getElementById('scenario-screen').style.display='none';
+const ps=document.getElementById('ps');ps.style.display='flex';
+const sp=document.querySelector('.sp');sp.style.animation='none';void sp.offsetHeight;sp.style.animation='si .4s cubic-bezier(.3,1.5,.7,1) both';
+}
+function nextS(){idx++;showS();}
+function gameOver(){
+document.getElementById('scenario-screen').style.display='none';
+document.getElementById('ps').style.display='none';
+document.getElementById('gs').style.display='flex';
+document.getElementById('gm').textContent='You faced '+sc+' impossible choices and got every single one wrong. This was inevitable. The Great White Shark was proud of nothing you did. There was never a correct answer. There never will be. Thank you for playing Learned Helplessness.';
+}
+restart();
+</script>
+</body>
+</html>
