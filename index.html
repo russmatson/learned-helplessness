@@ -19,49 +19,22 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
 #pt{font-family:'Creepster',cursive;font-size:2rem;color:#cc0000;text-shadow:0 0 12px #ff0000aa}
 #ptxt{font-size:1.05rem;color:#bbb;max-width:500px;line-height:1.6}
 #ss{width:360px;max-width:90vw;overflow:visible}
-
-/* Shark bounce */
 #shark-group{animation:sb .5s ease-in-out infinite alternate;transform-origin:center}
 @keyframes sb{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-8px) rotate(2deg)}}
-
-/* Poop drop animation */
-#poop-drop{
-  transform-origin: 50% 0%;
-  animation: none;
-}
-.poop-falling{
-  animation: poopFall 0.55s cubic-bezier(0.4,0,1,1) forwards !important;
-}
+#poop-drop{transform-origin:50% 0%;animation:none}
+.poop-falling{animation:poopFall 0.55s cubic-bezier(0.4,0,1,1) forwards !important}
 @keyframes poopFall{
-  0%  { transform: translateY(0px) scale(0.2) rotate(0deg); opacity:1; }
-  60% { transform: translateY(62px) scale(1.3) rotate(-15deg); opacity:1; }
-  80% { transform: translateY(72px) scale(1.1) rotate(-10deg); opacity:1; }
-  100%{ transform: translateY(72px) scale(1.0) rotate(-8deg); opacity:1; }
+  0%  {transform:translateY(0px) scale(0.2) rotate(0deg);opacity:1}
+  60% {transform:translateY(62px) scale(1.3) rotate(-15deg);opacity:1}
+  80% {transform:translateY(72px) scale(1.1) rotate(-10deg);opacity:1}
+  100%{transform:translateY(72px) scale(1.0) rotate(-8deg);opacity:1}
 }
-
-/* Splat appears after drop */
-#poop-splat{
-  opacity:0;
-}
-.splat-appear{
-  animation: splatIn 0.35s cubic-bezier(0.3,1.6,0.6,1) 0.55s forwards !important;
-}
-@keyframes splatIn{
-  from{transform:scale(0) rotate(-20deg);opacity:0}
-  to{transform:scale(1) rotate(0deg);opacity:1}
-}
-
-/* Person recoil */
+#poop-splat{opacity:0}
+.splat-appear{animation:splatIn 0.35s cubic-bezier(0.3,1.6,0.6,1) 0.55s forwards !important}
+@keyframes splatIn{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0deg);opacity:1}}
 #person-group{transform-origin:170px 195px}
-.person-hit{
-  animation: personHit 0.2s ease-out 0.55s forwards !important;
-}
-@keyframes personHit{
-  0%  {transform:rotate(0deg) translateY(0)}
-  40% {transform:rotate(15deg) translateY(4px)}
-  100%{transform:rotate(8deg) translateY(2px)}
-}
-
+.person-hit{animation:personHit 0.2s ease-out 0.55s forwards !important}
+@keyframes personHit{0%{transform:rotate(0deg) translateY(0)}40%{transform:rotate(15deg) translateY(4px)}100%{transform:rotate(8deg) translateY(2px)}}
 #nb{background:#cc0000;border:none;color:#fff;padding:.75rem 2rem;font-family:'Special Elite',cursive;font-size:1.1rem;border-radius:8px;cursor:pointer;margin-top:.5rem;transition:background .2s}
 #nb:hover{background:#ff2222}
 #scorebar{font-size:.9rem;color:#666;margin-top:1rem}
@@ -71,7 +44,18 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
 #rb{background:#222;border:2px solid #cc0000;color:#cc0000;padding:.75rem 2rem;font-family:'Special Elite',cursive;font-size:1.05rem;border-radius:8px;cursor:pointer;transition:all .2s}
 #rb:hover{background:#cc0000;color:#fff}
 #pr{color:#555;font-size:.85rem;margin-bottom:.5rem}
-/* Splash overlay */
+
+/* WIN SCREEN */
+#win-screen{display:none;flex-direction:column;align-items:center;gap:1rem;text-align:center;position:relative;overflow:hidden;padding:1rem 0}
+#win-title{font-family:'Creepster',cursive;font-size:2.6rem;color:#00cc44;text-shadow:0 0 20px #00ff6688;animation:winPulse 0.6s ease-in-out infinite alternate}
+@keyframes winPulse{from{transform:scale(1)}to{transform:scale(1.06)}}
+#win-msg{font-size:1.05rem;color:#aaffbb;max-width:480px;line-height:1.7}
+#win-sub{font-size:.85rem;color:#666;font-style:italic;margin-top:.3rem}
+#win-next{background:#00aa33;border:none;color:#fff;padding:.75rem 2rem;font-family:'Special Elite',cursive;font-size:1.1rem;border-radius:8px;cursor:pointer;margin-top:.5rem;transition:background .2s}
+#win-next:hover{background:#00dd44}
+#confetti-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+
+/* Splash */
 #splash{position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;z-index:1000;cursor:pointer}
 #splash h2{font-family:'Creepster',cursive;font-size:3.5rem;color:#cc0000;text-shadow:0 0 30px #ff000088;text-align:center;padding:0 1rem}
 #splash p{color:#888;font-size:1rem;text-align:center;max-width:400px;line-height:1.6}
@@ -101,20 +85,16 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
 <div id="scorebar">Scenarios survived: <span id="score">0</span></div>
 </div>
 
+<!-- PUNISHMENT SCREEN -->
 <div id="ps">
 <div id="pt">WRONG.</div>
-
 <svg id="ss" viewBox="0 0 360 290" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
   <rect width="360" height="290" fill="#1a0a0a"/>
   <circle cx="180" cy="60" r="45" fill="#cc000022"/>
   <circle cx="180" cy="58" r="32" fill="#2a1a1a" stroke="#cc0000" stroke-width="1.5"/>
   <circle cx="172" cy="52" r="22" fill="#1a0a0a"/>
-  <!-- Ground -->
   <rect x="0" y="248" width="360" height="42" fill="#110800"/>
   <line x1="0" y1="248" x2="360" y2="248" stroke="#333" stroke-width="1.5"/>
-
-  <!-- Stick person (with recoil animation group) -->
   <g id="person-group">
     <g transform="translate(170,195)">
       <line x1="0" y1="0" x2="0" y2="28" stroke="#e0c090" stroke-width="2.5"/>
@@ -128,37 +108,25 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
       <path d="M-4 -5 Q0 -2 4 -5" stroke="#333" stroke-width="1.2" fill="none"/>
     </g>
   </g>
-
-  <!-- Poop splat on ground (appears after drop) -->
   <g id="poop-splat" transform="translate(168,220)">
-    <!-- Wide splat base -->
     <ellipse cx="0" cy="16" rx="32" ry="9" fill="#4a2e0e"/>
-    <!-- Main pile -->
     <ellipse cx="0" cy="10" rx="24" ry="10" fill="#5c3a1e"/>
     <path d="M-12,10 Q-14,-6 -4,-12 Q4,-18 8,-6 Q14,-22 20,-8 Q26,-18 24,0 Q28,8 18,10 Z" fill="#6b4423"/>
-    <!-- Swirl tower -->
     <path d="M4,-8 Q14,-24 10,-36 Q5,-44 0,-36 Q-5,-28 2,-22 Q10,-16 4,-8 Z" fill="#7a4f2a"/>
-    <!-- Swirl top tip -->
     <path d="M2,-34 Q6,-42 3,-48 Q0,-44 2,-34 Z" fill="#8a5f3a"/>
-    <!-- Stink lines -->
     <line x1="-6" y1="-38" x2="-10" y2="-56" stroke="#5c3a1e" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
     <line x1="6" y1="-40" x2="10" y2="-58" stroke="#5c3a1e" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
     <line x1="18" y1="-32" x2="24" y2="-48" stroke="#5c3a1e" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
-    <!-- Flies -->
     <circle cx="-16" cy="-52" r="3" fill="#222"/>
     <circle cx="26" cy="-56" r="2.5" fill="#222"/>
     <circle cx="12" cy="-64" r="2.5" fill="#222"/>
-    <!-- Splat drops around -->
     <ellipse cx="-28" cy="8" rx="7" ry="4" fill="#5c3a1e" transform="rotate(-25,-28,8)"/>
     <ellipse cx="30" cy="10" rx="6" ry="3.5" fill="#5c3a1e" transform="rotate(20,30,10)"/>
     <ellipse cx="-10" cy="26" rx="8" ry="4" fill="#4a2e0e"/>
     <ellipse cx="14" cy="27" rx="6" ry="3" fill="#4a2e0e"/>
-    <!-- Impact stars -->
     <text x="-44" y="-10" font-size="16" fill="#cc0000" opacity=".8">&#10022;</text>
     <text x="36" y="-8" font-size="14" fill="#cc0000" opacity=".8">&#10022;</text>
   </g>
-
-  <!-- Shark group (bouncing) -->
   <g id="shark-group" transform="translate(160,88)">
     <ellipse cx="0" cy="0" rx="72" ry="28" fill="#6a8a9a"/>
     <ellipse cx="4" cy="6" rx="55" ry="16" fill="#d8e8ec"/>
@@ -178,36 +146,31 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
     <path d="M38,-18 Q32,-8 38,2" stroke="#4a6a7a" stroke-width="2" fill="none"/>
     <path d="M44,-20 Q38,-8 44,2" stroke="#4a6a7a" stroke-width="2" fill="none"/>
     <path d="M50,-20 Q44,-8 50,2" stroke="#4a6a7a" stroke-width="2" fill="none"/>
-    <!-- Butt hole / source -->
     <ellipse cx="-68" cy="0" rx="5" ry="4" fill="#4a6a7a"/>
-
-    <!-- Poop projectile (drops from butt) -->
-    <!-- Positioned relative to shark: butt is at roughly (-68, 0) in shark coords,
-         which is (160-68, 88) = (92, 88) in SVG coords.
-         We want it to fall to the splat at ~(168,220).
-         We'll use absolute SVG coords via a separate top-level group. -->
   </g>
-
-  <!-- Poop drop projectile (absolute SVG coords, starts at shark butt ~92,88, falls to ~168,220) -->
   <g id="poop-drop" transform="translate(92,88)">
-    <!-- Big chunky poop emoji shape -->
     <ellipse cx="0" cy="0" rx="14" ry="10" fill="#5c3a1e"/>
     <path d="M-8,0 Q-10,-12 -2,-16 Q4,-20 8,-10 Q12,-22 16,-8 Q20,-18 18,-2 Q22,6 14,8 Q6,14 -2,10 Z" fill="#6b4423"/>
     <path d="M2,-10 Q8,-22 5,-30 Q2,-36 -1,-28 Q-4,-20 2,-16 Q8,-12 2,-10 Z" fill="#7a4f2a"/>
-    <!-- Eyes on poop -->
     <circle cx="-4" cy="-2" r="2.5" fill="#fff"/>
     <circle cx="-3.5" cy="-2" r="1.2" fill="#222"/>
     <circle cx="6" cy="-3" r="2.5" fill="#fff"/>
     <circle cx="6.5" cy="-3" r="1.2" fill="#222"/>
-    <!-- Smile -->
     <path d="M-2 3 Q2 6 6 3" stroke="#333" stroke-width="1" fill="none" stroke-linecap="round"/>
   </g>
-
   <text x="248" y="116" font-size="9" fill="#cc000099" font-family="sans-serif">Great White Shark</text>
 </svg>
-
 <div id="ptxt"></div>
 <button id="nb" onclick="nextS()">Face Your Next Doom</button>
+</div>
+
+<!-- WIN SCREEN (1-in-1000) -->
+<div id="win-screen">
+  <canvas id="confetti-canvas"></canvas>
+  <div id="win-title">YOU WERE RIGHT.</div>
+  <div id="win-msg"></div>
+  <div id="win-sub">This has a 1 in 1,000 chance of happening. The shark is confused. Cherish this.</div>
+  <button id="win-next" onclick="nextS()">Continue (It Won't Happen Again)</button>
 </div>
 
 <div id="gs">
@@ -224,7 +187,7 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
 </div>
 
 <script>
-var ytPlayer, ytReady=false, ytMuted=false, shouldPlay=false;
+var ytPlayer,ytReady=false,ytMuted=false,shouldPlay=false;
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('yt-player',{
     height:'1',width:'1',videoId:'KYW2LYrSkA4',
@@ -244,6 +207,49 @@ function toggleMute(){
   document.getElementById('mute-btn').textContent=ytMuted?'\uD83D\uDD07':'\uD83D\uDD08';
 }
 (function(){var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);})();
+
+// --- Confetti ---
+function launchConfetti(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  const ws=document.getElementById('win-screen');
+  canvas.width=ws.offsetWidth||400;
+  canvas.height=ws.offsetHeight||300;
+  const pieces=Array.from({length:80},()=>({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height-canvas.height,
+    r:Math.random()*6+3,
+    d:Math.random()*3+1,
+    color:['#00ff66','#ffdd00','#00ccff','#ff44aa','#ffffff'][Math.floor(Math.random()*5)],
+    tilt:Math.random()*10-5,
+    tiltSpeed:Math.random()*0.1+0.05
+  }));
+  let frame=0,anim;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.beginPath();
+      ctx.ellipse(p.x,p.y,p.r,p.r/2,p.tilt*Math.PI/180,0,2*Math.PI);
+      ctx.fillStyle=p.color;
+      ctx.fill();
+      p.y+=p.d+Math.sin(frame*0.05)*0.5;
+      p.tilt+=p.tiltSpeed;
+      if(p.y>canvas.height)p.y=-10;
+    });
+    frame++;
+    if(frame<300)anim=requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  draw();
+}
+
+const winMessages=[
+  "You chose correctly. The universe glitched. The Great White Shark is filing a formal complaint with reality.",
+  "Against all odds, this was the right call. Scientists are baffled. The shark is in therapy.",
+  "You did it. You actually did it. The shark stared at its own reflection for three hours and felt nothing.",
+  "Correct. The shark circled once, confused, and swam away. This will not happen again.",
+  "You were right. The Great White Shark has excused itself from the premises. Enjoy this. It ends now."
+];
 
 const S=[
 {t:"You pass a graveyard at midnight. A fresh grave beckons. Rob it or walk away with dignity?",c:[
@@ -292,42 +298,29 @@ let idx=0,sc=0,sh=[];
 const shuf=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
 
 function triggerPoopAnimation(){
-  // Reset all animations
   const drop=document.getElementById('poop-drop');
   const splat=document.getElementById('poop-splat');
   const person=document.getElementById('person-group');
-
-  // Force reflow to restart animations
   drop.classList.remove('poop-falling');
   splat.classList.remove('splat-appear');
   person.classList.remove('person-hit');
-  void drop.offsetWidth;
-  void splat.offsetWidth;
-  void person.offsetWidth;
-
-  // Hide splat initially, show drop
+  void drop.offsetWidth;void splat.offsetWidth;void person.offsetWidth;
   drop.style.opacity='1';
   splat.style.opacity='0';
-
-  // The poop-drop starts at (92,88) in SVG space = shark butt area
-  // It needs to travel to roughly (168,220) = splat location
-  // Delta: +76 in x, +132 in y — handled by the CSS keyframe translateY
-  // We position the drop element to start right at the butt and animate downward+rightward
-  drop.style.transform='translate(0,0)';
-
-  // Trigger animations
   drop.classList.add('poop-falling');
   splat.classList.add('splat-appear');
   person.classList.add('person-hit');
+  setTimeout(()=>{drop.style.opacity='0';},700);
+}
 
-  // After splat appears, hide the projectile
-  setTimeout(()=>{ drop.style.opacity='0'; }, 700);
+function hideAll(){
+  ['gs','ps','win-screen'].forEach(id=>{document.getElementById(id).style.display='none';});
 }
 
 function restart(){sh=shuf(S);idx=0;sc=0;document.getElementById('score').textContent=0;showS();}
 
 function showS(){
-  ['gs','ps'].forEach(id=>{document.getElementById(id).style.display='none';});
+  hideAll();
   document.getElementById('scenario-screen').style.display='block';
   if(idx>=sh.length){gameOver();return;}
   const s=sh[idx];
@@ -338,20 +331,30 @@ function showS(){
 }
 
 function pick(p){
-  sc++;document.getElementById('score').textContent=sc;
-  document.getElementById('ptxt').textContent=p;
+  sc++;
+  document.getElementById('score').textContent=sc;
   document.getElementById('scenario-screen').style.display='none';
-  document.getElementById('ps').style.display='flex';
-  triggerPoopAnimation();
+
+  // 1 in 1000 chance of being RIGHT
+  if(Math.random()<0.001){
+    const ws=document.getElementById('win-screen');
+    ws.style.display='flex';
+    document.getElementById('win-msg').textContent=winMessages[Math.floor(Math.random()*winMessages.length)];
+    // Resize canvas after display
+    setTimeout(launchConfetti,50);
+  } else {
+    document.getElementById('ptxt').textContent=p;
+    document.getElementById('ps').style.display='flex';
+    triggerPoopAnimation();
+  }
 }
 
 function nextS(){idx++;showS();}
 
 function gameOver(){
-  document.getElementById('scenario-screen').style.display='none';
-  document.getElementById('ps').style.display='none';
+  hideAll();
   document.getElementById('gs').style.display='flex';
-  document.getElementById('gm').textContent='You faced '+sc+' impossible choices and got every single one wrong. This was inevitable. The Great White Shark was proud of nothing you did. There was never a correct answer. There never will be. Thank you for playing Learned Helplessness.';
+  document.getElementById('gm').textContent='You faced '+sc+' impossible choices and got almost every single one wrong. This was inevitable. The Great White Shark was proud of nothing you did. There was never a correct answer. Well, once. But you probably didn\'t get it. Thank you for playing Learned Helplessness.';
 }
 
 restart();
