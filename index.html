@@ -31,13 +31,28 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
 #rb{background:#222;border:2px solid #cc0000;color:#cc0000;padding:.75rem 2rem;font-family:'Special Elite',cursive;font-size:1.05rem;border-radius:8px;cursor:pointer;transition:all .2s}
 #rb:hover{background:#cc0000;color:#fff}
 #pr{color:#555;font-size:.85rem;margin-bottom:.5rem}
+/* Splash overlay */
+#splash{position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;z-index:1000;cursor:pointer}
+#splash h2{font-family:'Creepster',cursive;font-size:3.5rem;color:#cc0000;text-shadow:0 0 30px #ff000088;text-align:center;padding:0 1rem}
+#splash p{color:#888;font-size:1rem;text-align:center;max-width:400px;line-height:1.6}
+#splash-btn{background:#cc0000;border:none;color:#fff;padding:1rem 3rem;font-family:'Special Elite',cursive;font-size:1.3rem;border-radius:10px;cursor:pointer;animation:pulse 1.2s ease-in-out infinite alternate;letter-spacing:1px}
+@keyframes pulse{from{transform:scale(1);box-shadow:0 0 10px #cc000066}to{transform:scale(1.05);box-shadow:0 0 30px #cc0000cc}}
+/* Audio bar */
 #audio-bar{position:fixed;bottom:12px;right:12px;background:#1a1a1a;border:1px solid #444;border-radius:8px;padding:6px 12px;font-size:.75rem;color:#666;display:flex;align-items:center;gap:8px;z-index:999}
-#audio-bar button{background:none;border:none;color:#888;cursor:pointer;font-size:.85rem;padding:2px 6px;border-radius:4px;transition:color .2s}
+#audio-bar button{background:none;border:none;color:#888;cursor:pointer;font-size:.9rem;padding:2px 6px;border-radius:4px;transition:color .2s}
 #audio-bar button:hover{color:#cc0000}
-#yt-player{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px}
+#yt-player{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px}
 </style>
 </head>
 <body>
+
+<!-- Click-to-start splash (also unblocks audio autoplay) -->
+<div id="splash" onclick="startSplash()">
+  <h2>Learned Helplessness</h2>
+  <p>Whatever you choose, it will be wrong.<br>The shark is already waiting.</p>
+  <button id="splash-btn">&#9654; Begin Your Suffering</button>
+</div>
+
 <h1>Learned Helplessness</h1>
 <p class="sub">Every choice is wrong. Resistance is futile. The shark awaits.</p>
 <div id="gc">
@@ -113,34 +128,59 @@ h1{font-family:'Creepster',cursive;font-size:2.8rem;color:#cc0000;text-shadow:0 
 </div>
 </div>
 
-<!-- Hidden YouTube player for soundtrack -->
+<!-- Hidden YouTube player -->
 <div id="yt-player"></div>
 
-<!-- Audio controls bar -->
+<!-- Audio controls -->
 <div id="audio-bar">
-  <span>&#127925; Soundtrack</span>
-  <button id="mute-btn" onclick="toggleMute()" title="Mute/Unmute">&#128264;</button>
+  <span>&#127925; Redd</span>
+  <button id="mute-btn" title="Mute/Unmute" onclick="toggleMute()">&#128264;</button>
 </div>
 
 <script>
-// YouTube IFrame API
-var ytPlayer, ytMuted = false;
+var ytPlayer, ytReady = false, ytMuted = false, shouldPlay = false;
+
 function onYouTubeIframeAPIReady() {
   ytPlayer = new YT.Player('yt-player', {
     height: '1', width: '1',
     videoId: 'KYW2LYrSkA4',
-    playerVars: { autoplay: 1, loop: 1, playlist: 'KYW2LYrSkA4', controls: 0, disablekb: 1, fs: 0, modestbranding: 1, playsinline: 1 },
-    events: { onReady: function(e){ e.target.setVolume(60); e.target.playVideo(); } }
+    playerVars: {
+      autoplay: 0, loop: 1, playlist: 'KYW2LYrSkA4',
+      controls: 0, disablekb: 1, fs: 0,
+      modestbranding: 1, playsinline: 1
+    },
+    events: {
+      onReady: function(e) {
+        ytReady = true;
+        e.target.setVolume(70);
+        if (shouldPlay) e.target.playVideo();
+      }
+    }
   });
 }
+
+function startSplash() {
+  document.getElementById('splash').style.display = 'none';
+  // Trigger audio — user gesture happened so browser allows it
+  shouldPlay = true;
+  if (ytReady && ytPlayer) {
+    ytPlayer.playVideo();
+  }
+}
+
 function toggleMute() {
   if (!ytPlayer) return;
   ytMuted = !ytMuted;
   ytMuted ? ytPlayer.mute() : ytPlayer.unMute();
   document.getElementById('mute-btn').textContent = ytMuted ? '\uD83D\uDD07' : '\uD83D\uDD08';
 }
+
 // Load YT API
-(function(){var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);})();
+(function(){
+  var s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(s);
+})();
 
 const S=[
 {t:"You pass a graveyard at midnight. A fresh grave beckons. Rob it or walk away with dignity?",c:[
@@ -184,33 +224,40 @@ const S=[
 {l:"Respect the raccoon's hustle and go back inside",p:"You did nothing. The raccoon found your spare key (you did not know you had a spare key). It has been living in your attic for three weeks. The Great White Shark is the raccoon's landlord and your rent just went up."}
 ]}
 ];
+
 let idx=0,sc=0,sh=[];
 const shuf=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+
 function restart(){sh=shuf(S);idx=0;sc=0;document.getElementById('score').textContent=0;showS();}
+
 function showS(){
-['gs','ps'].forEach(id=>{document.getElementById(id).style.display='none';});
-document.getElementById('scenario-screen').style.display='block';
-if(idx>=sh.length){gameOver();return;}
-const s=sh[idx];
-document.getElementById('pr').textContent='Scenario '+(idx+1)+' of '+sh.length;
-document.getElementById('st').textContent=s.t;
-const c=document.getElementById('cc');c.innerHTML='';
-shuf(s.c).forEach(ch=>{const b=document.createElement('button');b.className='cb';b.textContent=ch.l;b.onclick=()=>pick(ch.p);c.appendChild(b);});
+  ['gs','ps'].forEach(id=>{document.getElementById(id).style.display='none';});
+  document.getElementById('scenario-screen').style.display='block';
+  if(idx>=sh.length){gameOver();return;}
+  const s=sh[idx];
+  document.getElementById('pr').textContent='Scenario '+(idx+1)+' of '+sh.length;
+  document.getElementById('st').textContent=s.t;
+  const c=document.getElementById('cc');c.innerHTML='';
+  shuf(s.c).forEach(ch=>{const b=document.createElement('button');b.className='cb';b.textContent=ch.l;b.onclick=()=>pick(ch.p);c.appendChild(b);});
 }
+
 function pick(p){
-sc++;document.getElementById('score').textContent=sc;
-document.getElementById('ptxt').textContent=p;
-document.getElementById('scenario-screen').style.display='none';
-const ps=document.getElementById('ps');ps.style.display='flex';
-const sp=document.querySelector('.sp');sp.style.animation='none';void sp.offsetHeight;sp.style.animation='si .4s cubic-bezier(.3,1.5,.7,1) both';
+  sc++;document.getElementById('score').textContent=sc;
+  document.getElementById('ptxt').textContent=p;
+  document.getElementById('scenario-screen').style.display='none';
+  const ps=document.getElementById('ps');ps.style.display='flex';
+  const sp=document.querySelector('.sp');sp.style.animation='none';void sp.offsetHeight;sp.style.animation='si .4s cubic-bezier(.3,1.5,.7,1) both';
 }
+
 function nextS(){idx++;showS();}
+
 function gameOver(){
-document.getElementById('scenario-screen').style.display='none';
-document.getElementById('ps').style.display='none';
-document.getElementById('gs').style.display='flex';
-document.getElementById('gm').textContent='You faced '+sc+' impossible choices and got every single one wrong. This was inevitable. The Great White Shark was proud of nothing you did. There was never a correct answer. There never will be. Thank you for playing Learned Helplessness.';
+  document.getElementById('scenario-screen').style.display='none';
+  document.getElementById('ps').style.display='none';
+  document.getElementById('gs').style.display='flex';
+  document.getElementById('gm').textContent='You faced '+sc+' impossible choices and got every single one wrong. This was inevitable. The Great White Shark was proud of nothing you did. There was never a correct answer. There never will be. Thank you for playing Learned Helplessness.';
 }
+
 restart();
 </script>
 </body>
